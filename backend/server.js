@@ -25,12 +25,21 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 // 📦 Multer setup
+const fs = require("fs");
+
+const uploadDir = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
 const storage = multer.diskStorage({
-  destination: "uploads",
+  destination: uploadDir,
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
   }
 });
+
 
 const upload = multer({ storage });
 

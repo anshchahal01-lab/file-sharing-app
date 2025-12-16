@@ -26,8 +26,9 @@ router.post("/upload", upload.single("file"), async (req, res) => {
   await file.save();
 
   res.json({
-    link: `http://localhost:5000/api/files/${file.uuid}`
-  });
+  link: `${req.protocol}://${req.get("host")}/api/files/${file.uuid}`
+});
+
 });
 
 // Download file
