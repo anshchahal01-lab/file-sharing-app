@@ -68,12 +68,12 @@
     const formData = new FormData(form);
 
 
-    const res = await fetch(
-  "/upload",
-  {
-    method: "POST",
-    body: formData
-  }
+    const res = await 
+    fetch("/api/files/upload", {
+  method: "POST",
+  body: formData
+}
+
 );
 
 
