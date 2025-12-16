@@ -13,6 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -74,13 +75,14 @@ app.get("/files/:id", async (req, res) => {
   if (!file) return res.status(404).send("File not found");
 
   if (file.password) {
-    return res.send(`
-      <h2>Password Required</h2>
-      <form method="POST">
-        <input type="password" name="password" required />
-        <button type="submit">Download</button>
-      </form>
-    `);
+   return res.send(`
+  <h2>Password Required</h2>
+  <form method="POST" action="/files/${req.params.id}">
+    <input type="password" name="password" required />
+    <button type="submit">Download</button>
+  </form>
+`);
+
   }
 
   res.download(path.resolve(file.path), file.originalName);
