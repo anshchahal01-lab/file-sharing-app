@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>File Sharing App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      background: #020617;
+      padding: 25px;
+      border-radius: 10px;
+      width: 350px;
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+    }
+    button {
+      background: #22c55e;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .link {
+      margin-top: 15px;
+      word-break: break-all;
+      color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>📁 File Sharing</h2>
+
+  <form id="uploadForm">
+    <input type="file" name="file" required />
+  
+    <input
+  type="password"
+  name="password"
+  placeholder="Set password (optional)"
+/>
+
+    <button type="submit">Upload</button>
+  </form>
+
+  <div id="result" class="link"></div>
+</div>
+
+<script>
+  const form = document.getElementById("uploadForm");
+  const result = document.getElementById("result");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    const res = await fetch("http://localhost:5000/upload", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    result.innerHTML = `
+  ✅ Uploaded! <br>
+
+  <a id="downloadLink" href="${data.downloadLink}" target="_blank">
+    ${data.downloadLink}
+  </a>
+  <br><br>
+
+  <button id="copyBtn">Copy Link</button>
+`;
+setTimeout(() => {
+  const copyBtn = document.getElementById("copyBtn");
+  const link = document.getElementById("downloadLink").href;
+
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard.writeText(link);
+    alert("Link copied 😎");
+  });
+}, 0);
+
+  });
+</script>
+
+</body>
+</html>
