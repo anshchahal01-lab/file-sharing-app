@@ -17,6 +17,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+// 🔥 FILE ROUTES (THIS WAS MISSING)
+const filesRoute = require("./routes/files");
+app.use("/api/files", filesRoute);
 
 // 🔥 MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
