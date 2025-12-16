@@ -67,8 +67,9 @@
 
     const formData = new FormData(form);
 
+
     const res = await fetch(
-  "https://file-sharing-app-icjk.onrender.com/upload",
+  "/api/files/upload",
   {
     method: "POST",
     body: formData
